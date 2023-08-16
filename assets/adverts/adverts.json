@@ -1,0 +1,24 @@
+{
+    "adverts": [
+        {
+            "title": "New Collection",
+            "descripton": "Something",
+            "imageSource": "https://assets.adidas.com/images/w_600,f_auto,q_auto/f9d52817f7524d3fb442af3b01717dfa_9366/Runfalcon_3_Cloudfoam_Low_Running_Shoes_Black_HQ3790_01_standard.jpg"
+        },
+        {
+            "title": "New Collection",
+            "descripton": "Something",
+            "imageSource": "https://assets.adidas.com/images/w_600,f_auto,q_auto/f9d52817f7524d3fb442af3b01717dfa_9366/Runfalcon_3_Cloudfoam_Low_Running_Shoes_Black_HQ3790_01_standard.jpg"
+        },
+        {
+            "title": "New Collection",
+            "descripton": "Something",
+            "imageSource": "https://assets.adidas.com/images/w_600,f_auto,q_auto/f9d52817f7524d3fb442af3b01717dfa_9366/Runfalcon_3_Cloudfoam_Low_Running_Shoes_Black_HQ3790_01_standard.jpg"
+        },
+        {
+            "title": "New Collection",
+            "descripton": "Something",
+            "imageSource": "https://assets.adidas.com/images/w_600,f_auto,q_auto/f9d52817f7524d3fb442af3b01717dfa_9366/Runfalcon_3_Cloudfoam_Low_Running_Shoes_Black_HQ3790_01_standard.jpg"
+        }
+    ]
+}

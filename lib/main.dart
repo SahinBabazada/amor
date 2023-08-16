@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         useMaterial3: true,
+        scaffoldBackgroundColor: const Color.fromRGBO(255, 255, 255, 1)
       ),
       home: const HomeScreen(),
     );

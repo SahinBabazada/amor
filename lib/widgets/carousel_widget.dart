@@ -23,10 +23,11 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
         CarouselSlider(
           options: CarouselOptions(
             disableCenter: true,
-            enlargeCenterPage: true,
+            enlargeCenterPage: false,
+            viewportFraction: 1,
             scrollDirection: Axis.horizontal,
             autoPlay: false,
-            height: 200,
+            height: 180,
             onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
@@ -39,15 +40,15 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
           activeIndex: _current,
           count: newsList.length,
           effect: const ExpandingDotsEffect(
-            expansionFactor: 3,
+            expansionFactor: 2,
             offset: 16.0,
             dotWidth: 8.0,
             dotHeight: 8.0,
             spacing: 4.0,
             radius: 8.0,
             strokeWidth: 1.0,
-            dotColor: Color.fromRGBO(240, 241, 243, 1),
-            activeDotColor: Color.fromRGBO(17, 138, 231, 1),
+            dotColor: Color.fromRGBO(210, 210, 209, 1),
+            activeDotColor: Color.fromRGBO(21, 153, 84, 1),
           ),
         ),
       ],
@@ -60,37 +61,27 @@ List<Container> sliderItems(List carouselItems) {
       .map(
         (item) => Container(
           margin: const EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 0.3,
-                blurRadius: 20,
-                offset: const Offset(0, 0), // changes position of shadow
-              ),
-            ],
-          ),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: ClipRRect(
             borderRadius: const BorderRadius.all(
-              Radius.circular(25.0),
+              Radius.circular(15.0),
             ),
             child: Stack(
               children: [
                 Image.network(
                   "https://assets.adidas.com/images/w_600,f_auto,q_auto/f9d52817f7524d3fb442af3b01717dfa_9366/Runfalcon_3_Cloudfoam_Low_Running_Shoes_Black_HQ3790_01_standard.jpg",
                   fit: BoxFit.cover,
-                  height: 200,
                 ),
                 Container(
-                  height: 350.0,
+                  height: 200.0,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     gradient: LinearGradient(
                       begin: FractionalOffset.topCenter,
                       end: FractionalOffset.bottomCenter,
                       colors: [
-                        const Color.fromARGB(255, 85, 85, 85).withOpacity(0.2),
-                        Colors.black,
+                        const Color.fromARGB(255, 85, 85, 85).withOpacity(0.6),
+                        const Color.fromARGB(255, 14, 13, 13),
                       ],
                       stops: const [
                         0.0,
@@ -99,63 +90,61 @@ List<Container> sliderItems(List carouselItems) {
                     ),
                   ),
                 ),
-                Positioned(
+                const Positioned(
                   left: 20,
                   top: 20,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 4.0),
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Text(
-                      "sdasd",
-                      style: const TextStyle(color: Colors.white, fontSize: 10),
+                  child: SizedBox(
+                    width: 150,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "New Collection",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20),
+                        ),
+                        Text(
+                          "Discount 50% for the first transaction",
+                          style: TextStyle(color: Colors.white54, fontSize: 14),
+                        )
+                      ],
                     ),
                   ),
                 ),
                 Positioned(
+                  left: 20,
                   bottom: 20,
-                  left: 10,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "sdass",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          const Text(
-                            " • ",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        width: 200,
-                        child: Text(
-                          "item.title",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.clip,
-                          maxLines: 2,
+                  child: Container(
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                        color: const Color.fromRGBO(21, 153, 84, 1).withAlpha(60),
+                        blurRadius: 10.0,
+                        spreadRadius: 0.0,
+                        offset: const Offset(
+                          0.0,
+                          10.0,
                         ),
                       ),
-                    ],
+                    ]),
+                    child: TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          const Color.fromRGBO(21, 153, 84, 1),
+                        ),
+                        padding: MaterialStateProperty.all(
+                          const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                        ),
+                      ),
+                      onPressed: () {},
+                      child: const Text(
+                        "Shop Now",
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),

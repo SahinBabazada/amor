@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../widgets/carousel_widget.dart';
+import '../widgets/categories_slider_widget.dart';
+import '../widgets/product_grid_view_widget.dart';
+import '../widgets/search_bar_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: DrawerButton(onPressed: () {}),
@@ -28,31 +33,35 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(24.0),
-            child: TextField(
-              decoration: InputDecoration(
-                  hintText: "What are you looking for?",
-                  fillColor: Colors.grey,
-                  filled: true,
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 8.0),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  prefixIcon: const Icon(LineIcons.search)),
-            ),
-          ),
-          const CarouselSliderWidget(),
-        ],
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            SearchBarWidget(),
+            CarouselSliderWidget(),
+            CategoriesSliderWidget(),
+            ProductGridViewWidget(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        margin: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          color: Colors.black
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.house, color: Colors.white,)),
+            IconButton(onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.magnifyingGlass)),
+            IconButton(onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.solidHeart)),
+            IconButton(onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.solidUser)),
+          ],
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
+
