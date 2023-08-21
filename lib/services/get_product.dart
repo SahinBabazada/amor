@@ -1,12 +1,9 @@
 import 'package:dio/dio.dart';
-
 import '../models/search_product.dart';
 
-Future<List<SearchProduct>?> getProductByCategory(String category) async {
+Future<List<SearchProduct>?> getProduct(bool isLimited, {int limit = 10, int skip = 10}) async {
   try {
-    var url = (category == "all")
-        ? 'https://dummyjson.com/products'
-        : 'https://dummyjson.com/products/category/$category';
+    var url = (isLimited)?'https://dummyjson.com/products?limit=$limit&skip=$skip':'https://dummyjson.com/products';
 
     var res = await Dio().get(url);
     if (res.statusCode == 200) {

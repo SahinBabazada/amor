@@ -39,7 +39,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
             child: FutureBuilder(
               future: getCategories(),
               builder: (context, snapshot) {
-                if (snapshot.hasError) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Color.fromRGBO(21, 153, 84, 1),
+              backgroundColor: Colors.white,
+            ),
+          );
+        } if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData) {
                   return const Text('Data not found');
@@ -51,13 +58,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       return TextButton(
                           style: ButtonStyle(
-                              padding:
-                                  MaterialStateProperty.all(EdgeInsets.all(10)),
+                              padding: MaterialStateProperty.all(
+                                  const EdgeInsets.all(10)),
                               shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(4.0),
-                                      side: BorderSide(color: Colors.red)))),
+                                      side: const BorderSide(
+                                          color: Colors.red)))),
                           onPressed: () {
                             setCategory(snapshot.data![index].name);
                           },
@@ -70,6 +78,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
             child: FutureBuilder(
               future: getProductByCategory(category),
               builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Color.fromRGBO(21, 153, 84, 1),
+                      backgroundColor: Colors.white,
+                    ),
+                  );
+                }
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData) {

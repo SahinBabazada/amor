@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ProductCardWidget extends StatelessWidget {
-  const ProductCardWidget({
-    super.key,
-  });
+import '../models/search_product.dart';
+
+class ProductCardWidget extends StatefulWidget {
+  final SearchProduct product;
+  const ProductCardWidget({super.key, required this.product});
 
   @override
+  State<ProductCardWidget> createState() => _ProductCardWidgetState();
+}
+
+class _ProductCardWidgetState extends State<ProductCardWidget> {
+  @override
   Widget build(BuildContext context) {
+    var savedProduct = DefaultAssetBundle.of(context).loadString('assets/saved_product/saved_product.json');
+
+    print(savedProduct);
     return Container(
       margin: const EdgeInsets.all(8.0),
       child: Column(
@@ -16,7 +25,7 @@ class ProductCardWidget extends StatelessWidget {
           Stack(
             children: [
               Image.network(
-                "https://as-images.apple.com/is/og-default?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1525370171638",
+                widget.product.thumbnail,
                 width: 150,
                 height: 150,
                 fit: BoxFit.cover,
@@ -26,7 +35,8 @@ class ProductCardWidget extends StatelessWidget {
                 right: 1,
                 child: IconButton(
                   onPressed: () {},
-                  icon: const FaIcon(FontAwesomeIcons.solidHeart, size: 16, color: Colors.red),
+                  icon: const FaIcon(FontAwesomeIcons.solidHeart,
+                      size: 16, color: Colors.red),
                 ),
               )
             ],
@@ -34,11 +44,12 @@ class ProductCardWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(
-                  width: 105,
+              SizedBox(
+                  width: 100,
                   child: Text(
-                    "Nike Pegasusadsdasds",
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+                    widget.product.title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 12),
                     overflow: TextOverflow.ellipsis,
                   )),
               Row(
@@ -50,16 +61,19 @@ class ProductCardWidget extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                       onPressed: () {},
-                      icon: const FaIcon(FontAwesomeIcons.solidStar, size: 12, color: Colors.orange),
+                      icon: const FaIcon(FontAwesomeIcons.solidStar,
+                          size: 12, color: Colors.orange),
                     ),
                   ),
-                  const Text("4.7",
-                      style: TextStyle(color: Colors.black26, fontSize: 12))
+                  Text(widget.product.rating.toString(),
+                      style:
+                          const TextStyle(color: Colors.black26, fontSize: 12))
                 ],
               )
             ],
           ),
-          const Text("\$89.9")
+          Text("\$ ${widget.product.price}",
+              style: const TextStyle(color: Colors.black45, fontSize: 12))
         ],
       ),
     );

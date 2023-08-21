@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../widgets/quantity_control_widget.dart';
 
 class CardScreen extends StatefulWidget {
+  const CardScreen({super.key});
+
   @override
   State<CardScreen> createState() => _CardScreenState();
 }
@@ -25,11 +27,11 @@ class _CardScreenState extends State<CardScreen> {
           itemCount: 23,
           itemBuilder: (context, index) {
             return Container(
-              margin: EdgeInsets.all(8),
+              margin: const EdgeInsets.all(8),
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(right: 10),
+                    margin: const EdgeInsets.only(right: 10),
                     child: Center(
                       child: InkWell(
                         onTap: () {
@@ -40,11 +42,11 @@ class _CardScreenState extends State<CardScreen> {
                           height: 25,
                           decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
-                            color: Color.fromRGBO(21, 153, 84, 1),
+                            color: const Color.fromRGBO(21, 153, 84, 1),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Padding(
-                              padding: EdgeInsets.all(1),
+                              padding: const EdgeInsets.all(1),
                               child: false
                                   // ignore: dead_code
                                   ? const Icon(

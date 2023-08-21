@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
+import '../services/get_product.dart';
 import 'product_card_widget.dart';
 
 class ProductGridViewWidget extends StatelessWidget {
@@ -32,17 +35,36 @@ class ProductGridViewWidget extends StatelessWidget {
               )
             ],
           ),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, 
-                childAspectRatio: 0.7
-                ),
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) {
-              return const ProductCardWidget();
-            },
+          FutureBuilder(
+            future: getProduct(true, limit: 10, skip: Random.secure().nextInt(20)),
+            builder:(context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Color.fromRGBO(21, 153, 84, 1),
+                      backgroundColor: Colors.white,
+                    ),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData) {
+                  return const Text('Data not found');
+                }
+
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, 
+                    childAspectRatio: 0.7
+                    ),
+                itemCount: snapshot.data?.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ProductCardWidget(product: snapshot.data![index]);
+                },
+              );
+            }
           ),
         ],
       ),

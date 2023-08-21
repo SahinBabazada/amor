@@ -1,3 +1,5 @@
+import 'package:amor/screens/profile_screen.dart';
+import 'package:amor/screens/save_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icons.dart';
@@ -33,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CardScreen()),
+                MaterialPageRoute(builder: (context) => const CardScreen()),
               );
             },
           )
@@ -67,10 +69,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {},
                 icon: const FaIcon(FontAwesomeIcons.magnifyingGlass)),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SaveScreen(
+                        searchString: "",
+                      ),
+                    ),
+                  );
+                },
                 icon: const FaIcon(FontAwesomeIcons.solidHeart)),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(),
+                    ),
+                  );
+                },
                 icon: const FaIcon(FontAwesomeIcons.solidUser)),
           ],
         ),

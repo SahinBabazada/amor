@@ -12,7 +12,14 @@ class CategoriesSliderWidget extends StatelessWidget {
     return FutureBuilder(
         future: getCategories(),
         builder: (context, snapshot) {
-          if (snapshot.hasError) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Color.fromRGBO(21, 153, 84, 1),
+                backgroundColor: Colors.white,
+              ),
+            );
+          } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData) {
             return const Text('Data not found');
