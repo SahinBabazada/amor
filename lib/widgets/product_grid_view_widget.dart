@@ -36,8 +36,9 @@ class ProductGridViewWidget extends StatelessWidget {
             ],
           ),
           FutureBuilder(
-            future: getProduct(true, limit: 10, skip: Random.secure().nextInt(20)),
-            builder:(context, snapshot) {
+              future: getProduct(true,
+                  limit: 10, skip: Random.secure().nextInt(20)),
+              builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                     child: CircularProgressIndicator(
@@ -52,24 +53,19 @@ class ProductGridViewWidget extends StatelessWidget {
                   return const Text('Data not found');
                 }
 
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, 
-                    childAspectRatio: 0.7
-                    ),
-                itemCount: snapshot.data?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ProductCardWidget(product: snapshot.data![index]);
-                },
-              );
-            }
-          ),
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, childAspectRatio: 0.7),
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ProductCardWidget(product: snapshot.data![index]);
+                  },
+                );
+              }),
         ],
       ),
     );
   }
 }
-
-

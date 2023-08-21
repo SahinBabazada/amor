@@ -7,7 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/random_emoji_widget.dart';
 import 'help_center_screen.dart';
+import 'home_screen.dart';
 import 'notifications_screen.dart';
+import 'search_screen.dart';
 
 // ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
@@ -18,14 +20,12 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var emoji = random.getRandomEmoji();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile screen'),
-      ),
+      extendBody: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 15, top: 15),
+            padding: const EdgeInsets.only(left: 15, top: 40),
             child: Text(' My \n Profile  $emoji',
                 style: const TextStyle(
                   fontFamily: 'GoogleSans',
@@ -65,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: const Color.fromARGB(255, 182, 80, 200),
+                      color: const Color.fromRGBO(21, 153, 84, 1),
                       width: 6.0,
                     ),
                   ),
@@ -124,8 +124,8 @@ class ProfileScreen extends StatelessWidget {
                       child: Builder(builder: (context) {
                         return ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(const Color(0xfff5f5f5))),
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color(0xfff5f5f5))),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) {
@@ -139,7 +139,7 @@ class ProfileScreen extends StatelessWidget {
                                 AssetImage(
                                     'assets/icons/profilepage/iconperson1big.png'),
                                 size: 24,
-                                color: Color.fromARGB(255, 182, 80, 200),
+                                color: Color.fromRGBO(21, 153, 84, 1),
                               ),
                               SizedBox(width: 10),
                               Text(
@@ -175,7 +175,7 @@ class ProfileScreen extends StatelessWidget {
                                   AssetImage(
                                       'assets/icons/profilepage/iconnotif.png'),
                                   size: 24,
-                                  color: Color.fromARGB(255, 182, 80, 200),
+                                  color: Color.fromRGBO(21, 153, 84, 1),
                                 ),
                                 SizedBox(width: 10),
                                 Text(
@@ -213,7 +213,7 @@ class ProfileScreen extends StatelessWidget {
                                   AssetImage(
                                       'assets/icons/profilepage/iconhelp.png'),
                                   size: 24,
-                                  color: Color.fromARGB(255, 182, 80, 200),
+                                  color: Color.fromRGBO(21, 153, 84, 1),
                                 ),
                                 SizedBox(width: 10),
                                 Text(
@@ -235,7 +235,7 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         margin: const EdgeInsets.all(20),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50), color: Colors.black),
@@ -243,12 +243,28 @@ class ProfileScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ),
+                  );
+                },
                 icon: const FaIcon(
                   FontAwesomeIcons.house,
                 )),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen(
+                        searchString: "",
+                      ),
+                    ),
+                  );
+                },
                 icon: const FaIcon(FontAwesomeIcons.magnifyingGlass)),
             IconButton(
                 onPressed: () {

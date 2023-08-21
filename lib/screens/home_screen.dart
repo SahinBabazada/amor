@@ -9,6 +9,7 @@ import '../widgets/categories_slider_widget.dart';
 import '../widgets/product_grid_view_widget.dart';
 import '../widgets/search_bar_widget.dart';
 import 'card_screen.dart';
+import 'search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -66,7 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white,
                 )),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen(
+                        searchString: "",
+                      ),
+                    ),
+                  );
+                },
                 icon: const FaIcon(FontAwesomeIcons.magnifyingGlass)),
             IconButton(
                 onPressed: () {

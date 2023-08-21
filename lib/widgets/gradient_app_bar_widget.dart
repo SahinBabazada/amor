@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../screens/home_screen.dart';
-
 class GradientAppBar extends StatelessWidget {
   const GradientAppBar({super.key});
 
@@ -10,7 +8,7 @@ class GradientAppBar extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF8E24AA), Color(0xFF6A1B9A)],
+          colors: [Color.fromRGBO(0, 83, 40, 1), Color.fromRGBO(1, 134, 63, 1)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -49,11 +47,7 @@ class GradientAppBar extends StatelessWidget {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return const HomeScreen();
-                  },
-                ));
+                Navigator.of(context).pop();
               },
             ),
           ),

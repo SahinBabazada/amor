@@ -21,7 +21,7 @@ class ProfileDetails extends StatelessWidget {
               decoration: InputDecoration(
                   icon: Icon(
                     Icons.person,
-                    color: Colors.purple,
+                    color: Color.fromRGBO(21, 153, 84, 1),
                   ),
                   labelText: 'Kristen Stewart',
                   labelStyle: TextStyle(
@@ -37,7 +37,7 @@ class ProfileDetails extends StatelessWidget {
               decoration: InputDecoration(
                   icon: Icon(
                     Icons.female,
-                    color: Colors.purple,
+                    color: Color.fromRGBO(21, 153, 84, 1),
                   ),
                   labelText: 'Female',
                   labelStyle: TextStyle(
@@ -53,7 +53,7 @@ class ProfileDetails extends StatelessWidget {
               decoration: InputDecoration(
                   icon: Icon(
                     Icons.email,
-                    color: Colors.purple,
+                    color: Color.fromRGBO(21, 153, 84, 1),
                   ),
                   labelText: 'kristenstewart1@gmail.com',
                   labelStyle: TextStyle(
@@ -69,7 +69,7 @@ class ProfileDetails extends StatelessWidget {
               decoration: InputDecoration(
                   icon: Icon(
                     Icons.phone,
-                    color: Colors.purple,
+                    color: Color.fromRGBO(21, 153, 84, 1),
                   ),
                   labelText: '+994 50 999 99 99',
                   labelStyle: TextStyle(
@@ -85,7 +85,7 @@ class ProfileDetails extends StatelessWidget {
               decoration: InputDecoration(
                   icon: Icon(
                     Icons.location_pin,
-                    color: Colors.purple,
+                    color: Color.fromRGBO(21, 153, 84, 1),
                   ),
                   labelText: 'Azerbaijan, Baku',
                   labelStyle: TextStyle(
@@ -95,9 +95,27 @@ class ProfileDetails extends StatelessWidget {
               readOnly: true,
             ),
           ),
+          Padding(
+            padding: EdgeInsets.only(top: 10, left: 40, right: 35),
+            child: InkWell(
+              child: TextField(
+                decoration: InputDecoration(
+                    icon: Icon(
+                      Icons.credit_card,
+                      color: Color.fromRGBO(21, 153, 84, 1),
+                    ),
+                    labelText: 'Card information',
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'GoogleSans',
+                    ),
+                    border: InputBorder.none),
+                readOnly: true,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
-

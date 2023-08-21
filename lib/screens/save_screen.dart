@@ -1,4 +1,6 @@
 import 'package:amor/screens/home_screen.dart';
+import 'package:amor/screens/profile_screen.dart';
+import 'package:amor/screens/search_screen.dart';
 import 'package:amor/services/search_api.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -63,7 +65,16 @@ class SaveScreen extends StatelessWidget {
                       FontAwesomeIcons.house,
                     )),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SearchScreen(
+                            searchString: "",
+                          ),
+                        ),
+                      );
+                    },
                     icon: const FaIcon(FontAwesomeIcons.magnifyingGlass)),
                 IconButton(
                   onPressed: () {
@@ -80,7 +91,14 @@ class SaveScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(),
+                        ),
+                      );
+                    },
                     icon: const FaIcon(FontAwesomeIcons.solidUser)),
               ],
             ),

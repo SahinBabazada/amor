@@ -40,13 +40,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
               future: getCategories(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: Color.fromRGBO(21, 153, 84, 1),
-              backgroundColor: Colors.white,
-            ),
-          );
-        } if (snapshot.hasError) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Color.fromRGBO(21, 153, 84, 1),
+                      backgroundColor: Colors.white,
+                    ),
+                  );
+                }
+                if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData) {
                   return const Text('Data not found');
@@ -56,20 +57,40 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     itemCount: snapshot.data!.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
-                      return TextButton(
-                          style: ButtonStyle(
-                              padding: MaterialStateProperty.all(
-                                  const EdgeInsets.all(10)),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 8),
+                        child: TextButton(
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  (snapshot.data![index].name == category)
+                                      ? const Color.fromRGBO(21, 153, 84, 1)
+                                      : Colors.white,
+                                ),
+                                padding: MaterialStateProperty.all(
+                                  const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                                ),
+                                shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      side: const BorderSide(
-                                          color: Colors.red)))),
-                          onPressed: () {
-                            setCategory(snapshot.data![index].name);
-                          },
-                          child: Text(snapshot.data![index].name));
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(
+                                        width: 1,
+                                        color:
+                                            Color.fromARGB(255, 175, 175, 175)),
+                                  ),
+                                )),
+                            onPressed: () {
+                              setCategory(snapshot.data![index].name);
+                            },
+                            child: Text(
+                              snapshot.data![index].name,
+                              style: TextStyle(
+                                  color:
+                                      (snapshot.data![index].name == category)
+                                          ? Colors.white
+                                          : Colors.black87),
+                            )),
+                      );
                     });
               },
             ),
