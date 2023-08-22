@@ -25,7 +25,11 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: DrawerButton(onPressed: () {}),
+        // leading: InkWell(
+        //   onTap: () => widget.zoomController.toggle(),
+        //   child: Icon(Icons.menu),
+        // ),
+        automaticallyImplyLeading: false,
         title: const Text("a-more"),
         actions: [
           IconButton(

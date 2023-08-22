@@ -47,7 +47,10 @@ class SearchScreen extends StatelessWidget {
                       crossAxisCount: 2, childAspectRatio: 0.7),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return ProductCardWidget(product: snapshot.data![index]);
+                    return ProductCardWidget(
+                      product: snapshot.data![index],
+                      keepSaved: false,
+                    );
                   },
                 ),
               ],

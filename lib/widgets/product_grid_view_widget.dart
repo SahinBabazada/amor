@@ -16,23 +16,23 @@ class ProductGridViewWidget extends StatelessWidget {
       padding: const EdgeInsets.all(24.0),
       child: Column(
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 "Products",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "See all",
-                  style: TextStyle(
-                      color: Color.fromRGBO(46, 163, 102, 1),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
-                ),
-              )
+              // TextButton(
+              //   onPressed: () {},
+              //   child: const Text(
+              //     "See all",
+              //     style: TextStyle(
+              //         color: Color.fromRGBO(46, 163, 102, 1),
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.w400),
+              //   ),
+              // )
             ],
           ),
           FutureBuilder(
@@ -60,7 +60,10 @@ class ProductGridViewWidget extends StatelessWidget {
                       crossAxisCount: 2, childAspectRatio: 0.7),
                   itemCount: snapshot.data?.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return ProductCardWidget(product: snapshot.data![index]);
+                    return ProductCardWidget(
+                      product: snapshot.data![index],
+                      keepSaved: false,
+                    );
                   },
                 );
               }),

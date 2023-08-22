@@ -95,25 +95,6 @@ class ProfileDetails extends StatelessWidget {
               readOnly: true,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 10, left: 40, right: 35),
-            child: InkWell(
-              child: TextField(
-                decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.credit_card,
-                      color: Color.fromRGBO(21, 153, 84, 1),
-                    ),
-                    labelText: 'Card information',
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'GoogleSans',
-                    ),
-                    border: InputBorder.none),
-                readOnly: true,
-              ),
-            ),
-          ),
         ],
       ),
     );

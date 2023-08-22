@@ -1,6 +1,10 @@
+import 'package:amor/models/shopping_product.dart';
 import 'package:flutter/material.dart';
 
+import '../services/database_helper2.dart';
+import '../services/search_api.dart';
 import '../widgets/quantity_control_widget.dart';
+import 'product_details_screen.dart';
 
 class CardScreen extends StatefulWidget {
   const CardScreen({super.key});
@@ -10,106 +14,234 @@ class CardScreen extends StatefulWidget {
 }
 
 class _CardScreenState extends State<CardScreen> {
+  final DatabaseHelper2 dbHelper = DatabaseHelper2();
+
+  List<Map> shoppingProductIds = [];
+  Map<String, List> priceList = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchShoppingProductIds();
+  }
+
+  Future<void> _fetchShoppingProductIds() async {
+    List<Map> ids = await dbHelper.getAllShoppingProducts();
+    setState(() {
+      shoppingProductIds = ids;
+    });
+  }
+
+  int calculateSum(Map<String, List<dynamic>> inputMap) {
+    int sum = 0;
+
+    inputMap.forEach((key, value) {
+      int product = value[0] * value[1];
+      sum += product;
+    });
+
+    return sum;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Shopping List',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        appBar: AppBar(
+          title: const Text(
+            'Shopping List',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemExtent: 110,
-          itemCount: 23,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    child: Center(
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {});
-                        },
-                        child: Container(
-                          width: 25,
-                          height: 25,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: const Color.fromRGBO(21, 153, 84, 1),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Padding(
-                              padding: const EdgeInsets.all(1),
-                              child: false
-                                  // ignore: dead_code
-                                  ? const Icon(
-                                      Icons.check,
-                                      size: 15.0,
-                                      color: Colors.white,
-                                      // ignore: dead_code
-                                    )
-                                  : Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.rectangle,
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                    )),
-                        ),
+        body: Builder(builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.all(8),
+            child: FutureBuilder(
+                future: searchProducts2(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Color.fromRGBO(21, 153, 84, 1),
+                        backgroundColor: Colors.white,
                       ),
-                    ),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(
-                      "https://cdn.thewirecutter.com/wp-content/media/2023/05/running-shoes-2048px-9718.jpg",
-                      fit: BoxFit.cover,
-                      width: 110,
-                      height: 110,
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top:8.0, left: 8.0, right: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Item 1", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                          const Text("Category", style: TextStyle(fontSize: 10, ),),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("89 azn", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),),
-                              QuantityControl(
-                                quantity: 1,
-                                onMinusPressed: () {
-                                  setState(() {});
-                                },
-                                onPlusPressed: () {
-                                  setState(() {});
-                                },
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  )
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (!snapshot.hasData) {
+                    return const Text('Data not found');
+                  }
 
+                  List<ShoppingProduct> shoppingProducts = snapshot.data!
+                      .where((element) => shoppingProductIds
+                          .any((field) => field['id'] == element.id.toString()))
+                      .toList();
+
+                  return ListView.builder(
+                    itemExtent: 110,
+                    itemCount: shoppingProducts.length,
+                    itemBuilder: (context, index) {
+                      ShoppingProduct prdct = shoppingProducts[index];
+                      var shpProduct = shoppingProductIds
+                          .where(
+                            (element) => element['id'] == prdct.id.toString(),
+                          )
+                          .toList();
+
+                      priceList[prdct.id.toString()] = [
+                        prdct.price,
+                        shpProduct[0]['quantity']
+                      ];
+
+                      return Container(
+                        margin: const EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProductDetailScreen(
+                                        id: shoppingProducts[index].id),
+                                  ),
+                                );
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                  shoppingProducts[index].thumbnail,
+                                  fit: BoxFit.cover,
+                                  width: 110,
+                                  height: 110,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 8.0, left: 8.0, right: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      shoppingProducts[index].title,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      shoppingProducts[index].category,
+                                      style: const TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${shoppingProducts[index].price} ₼',
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        QuantityControl(
+                                          quantity: shpProduct[0]['quantity'],
+                                          onMinusPressed: () async {
+                                            await dbHelper
+                                                .addProductToShoppingList(
+                                              shoppingProducts[index]
+                                                  .id
+                                                  .toString(),
+                                              shpProduct[0]['quantity'] - 1,
+                                            );
+                                            _fetchShoppingProductIds();
+                                            setState(() {
+                                              priceList[prdct.id.toString()] = [
+                                                prdct.price,
+                                                shpProduct[0]['quantity'] - 1
+                                              ];
+                                            });
+                                          },
+                                          onPlusPressed: () async {
+                                            await dbHelper
+                                                .addProductToShoppingList(
+                                              shoppingProducts[index]
+                                                  .id
+                                                  .toString(),
+                                              shpProduct[0]['quantity'] + 1,
+                                            );
+                                            setState(() {
+                                              priceList[prdct.id.toString()] = [
+                                                prdct.price,
+                                                shpProduct[0]['quantity'] + 1
+                                              ];
+                                            });
+                                            _fetchShoppingProductIds();
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }),
+          );
+        }),
+        bottomNavigationBar: Container(
+          height: 120,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: const Color.fromARGB(255, 0, 0, 0).withAlpha(20),
+              blurRadius: 3.0,
+              spreadRadius: 0.0,
+              offset: const Offset(
+                0.0,
+                2.0,
+              ),
+            ),
+          ]),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(children: [
+              Row(
+                children: [
+                  const Text(
+                    "Total Price: ",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${calculateSum(priceList)}",
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
+                  )
                 ],
               ),
-            );
-          },
-        ),
-      ),
-    );
+              Center(
+                child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 100, vertical: 10)),
+                    onPressed: () {},
+                    child: const Text(
+                      'Checkout',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    )),
+              )
+            ]),
+          ),
+        ));
   }
 }
